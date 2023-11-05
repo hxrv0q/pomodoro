@@ -1,7 +1,7 @@
 export function timerReducer(state: State, action: Action): State {
   switch (action.type) {
     case "RESET":
-      return { ...state, paused: true, time: state.workTime };
+      return { ...state, paused: true, time: state.work ? state.workTime : state.breakTime }
 
     case "TOGGLE_PAUSE":
       return { ...state, paused: !state.paused };

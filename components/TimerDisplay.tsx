@@ -5,6 +5,7 @@ import { TimerContext } from "../context/TimerContext";
 export default function TimerDisplay() {
   const { state } = useContext(TimerContext) || { state: undefined };
 
+  const isWorkTime = state?.work;
   const totalDuration = state?.work ? state?.workTime : state?.breakTime || 0;
   const time = state?.time || 0;
   const percentage = (time / totalDuration) * 100;
@@ -12,12 +13,15 @@ export default function TimerDisplay() {
   return (
     <View style={styles.container}>
       <View style={styles.circle}>
-        <View style={[styles.progressCircle, { width: `${percentage}%` }]} />
+        <View style={[styles.progressCircle, { height: `${percentage}%` }]} />
         <Text style={styles.timeText}>
           {Math.floor(time / 60).toString().padStart(2, "0")}:
           {(time % 60).toString().padStart(2, "0")}
         </Text>
       </View>
+      <Text style={styles.statusText}>
+        {isWorkTime ? "Work Time" : "Break Time"}
+      </Text>
     </View>
   );
 }
@@ -41,9 +45,9 @@ const styles = StyleSheet.create({
   },
   progressCircle: {
     position: "absolute",
-    top: 0,
-    left: 0,
     bottom: 0,
+    left: 0,
+    right: 0,
     backgroundColor: "#E0E0E0",
   },
   timeText: {
@@ -51,4 +55,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     zIndex: 1,
   },
+  statusText: {
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#6200EA"
+  }
 });
